@@ -3,17 +3,18 @@ Render C++ Core Guidelines using remark, pandoc and pdflatex
 
 To get started quickly just run
 
+    git submodule init && git submodule init update
     run.sh
 
 inside the working copy.
 
-If you're behind a proxy create/edit `local_env` to contain 
+If you're behind a proxy create/edit `local_env` to contain your 
 
-    export http_proxy=http://192.168.50.2:3128
-    export https_proxy=https://192.168.50.2:3128
-    export DEBIAN_FRONTEND=noninteractive
+    export http_proxy=http://<ip:port>
+    export https_proxy=https://<ip:port>
 
-remark/pandoc/xetex/docker based markdown redering with syntax highlighting demonstrated on CppCoreGuidelines 
+To make things complicated you can also modify `fontoptions.tex` and `convert2pdf`
+to adjust the result. But be prepared to fight against XeTex, LaTeX and pandoc.
 
-* edit local_env
-* run run.sh
+Good luck!
+
