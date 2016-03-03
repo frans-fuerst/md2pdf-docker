@@ -1,0 +1,3 @@
+[submodule "CppCoreGuidelines"]
+	path = CppCoreGuidelines
+	url = https://github.com/isocpp/CppCoreGuidelines.git

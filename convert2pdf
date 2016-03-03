@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# HowTo taken from
+# https://github.com/isocpp/CppCoreGuidelines/issues/154
+
+set -x
+
+cd /opt/io
+
+mkdir -p tmp
+
+# turn all indented code to fenced code
+nodejs /node_modules/remark/bin/remark CppCoreGuidelines/CppCoreGuidelines.md \
+       --config-path ./remarkrc-fenced  1> tmp/CppCoreGuidelines.md.fenced
+
+# add 'cpp' as code language to fence openers (careful with indented fences in bullet lists)
+sed ':a;N;$!ba;s/\n\n\(\s*\)```/\n\n\1```cpp/g' tmp/CppCoreGuidelines.md.fenced > tmp/CppCoreGuidelines.md.coded
+
+# turn `<a name="foo"></a>` anchors into latex anchors `\label{foo}`
+sed 's/<a name="/\\label{/g' tmp/CppCoreGuidelines.md.coded | sed 's/"><\/a>/\}/g' > tmp/CppCoreGuidelines.md.texlabels
+
+# generate pdf
+pushd CppCoreGuidelines
+pandoc -f markdown -t latex -o ../CppCoreGuidelines.pdf \
+       -V geometry:margin=1in -V fontsize=12pt --variable documentclass=article --latex-engine=xelatex ../tmp/CppCoreGuidelines.md.texlabels
+
+popd
+pandoc -f markdown -t latex -o ../CppCoreGuidelines.pdf \
+    --include-in-header=../fontoptions.tex       \
+    -V geometry:margin=0.8in -V fontsize=12pt -V documentclass=article --latex-engine=xelatex \
+    ../tmp/CppCoreGuidelines.md.texlabels
+
+rm -rf tmp

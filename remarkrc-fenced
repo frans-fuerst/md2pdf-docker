@@ -1,0 +1,9 @@
+{
+  "settings": {
+    "bullet": "*",
+    "listItemIndent": "1",
+    "strong": "*",
+    "emphasis": "*",
+    "fences": true
+  }
+}
